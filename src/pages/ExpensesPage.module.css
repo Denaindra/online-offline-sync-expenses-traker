@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:global(body) {
+  margin: 0;
+}
+
+.page {
+  min-height: 100vh;
+  background: #f4f2ed;
+  color: #1c1b19;
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #67635b;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Summary cards */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Filters + sort */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* List */
+.listSection {
+  background: #ffffff;
+  border: 1px solid #e4e0d8;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
