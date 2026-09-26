@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import styles from './CategoryFilter.module.css';
-import { CATEGORIES } from '../../../../shared/categories';
+import { CATEGORIES } from '../../../../shared/Categories';
 
 
 
