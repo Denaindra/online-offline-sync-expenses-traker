@@ -1,0 +1,33 @@
+
+.footerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 16px 24px;
+  background-color: #fafafa; 
+  border-top: 1px solid #f0f0f0;
+}
+
+.showingText {
+  color: #6b7280 !important;
+  font-size: 13px !important;
+  font-family: inherit !important;
+}
+
+.loadMoreBtn {
+  text-transform: none !important; 
+  color: #374151 !important; 
+  border-color: #e5e7eb !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  padding: 6px 16px !important;
+  background-color: #ffffff !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.loadMoreBtn:hover {
+  background-color: #f9fafb !important;
+  border-color: #d1d5db !important;
+}

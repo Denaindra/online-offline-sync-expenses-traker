@@ -45,7 +45,6 @@ const ExpensesPage = () => {
 
         <section className={styles.listSection} aria-label="Expense history">
           <ExpenseTable />
-          <span>ExpenseList</span>
         </section>
       </main>
 
