@@ -27,9 +27,9 @@ const ExpensesPage = () => {
         {/* <OfflineBanner /> */}
 
         <section className={styles.summary} aria-label="Summary">
-          <Card />
-          <Card />
-          <Card />
+          <StatusCard />
+          <StatusCard />
+          <StatusCard />
           {/* <span>SummaryCard</span>
             <span>SummaryCard</span>     */}
           {/* <SummaryCard label="Spent this month" value={...} /> x3 */}

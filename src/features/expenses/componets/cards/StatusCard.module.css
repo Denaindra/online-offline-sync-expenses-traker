@@ -1,0 +1,47 @@
+.cardContainer {
+  border-radius: 12px;
+  width: fit-content;
+  border-color: #e5e7eb;
+  box-shadow: none;
+}
+
+/* Override MUI's default last-child padding on CardContent */
+.cardContent {
+  padding: 16px 20px;
+}
+.cardContent:last-child {
+  padding-bottom: 16px;
+}
+
+.categoryLabel {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.categoryDetails {
+  display: flex;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.categoryDot {
+  width: 10px;
+  height: 10px;
+  background-color: #8b5cf6;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.categoryName {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.categoryPercentage {
+  color: #6b7280;
+  font-size: 14px;
+}
