@@ -19,6 +19,10 @@ interface ExpenseFormModalProps {
 }
 
 export const ExpenseFormModal = ({ open, onClose }: ExpenseFormModalProps) => {
+
+    const [title, setTitle] = React.useState('');
+
+
   return (
     <Dialog 
       open={open} 
@@ -45,6 +49,7 @@ export const ExpenseFormModal = ({ open, onClose }: ExpenseFormModalProps) => {
             fullWidth 
             placeholder="e.g. Lunch with team" 
             className={styles.inputField}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </Box>
 
@@ -107,7 +112,7 @@ export const ExpenseFormModal = ({ open, onClose }: ExpenseFormModalProps) => {
         </Button>
         <Button 
           variant="contained" 
-          className={styles.submitBtn}
+          className={title ? styles.enableSubmitBtn : styles.disableSubmitBtn}
           disableElevation
         >
           Add expense

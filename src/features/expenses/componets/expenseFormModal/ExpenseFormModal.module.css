@@ -92,15 +92,23 @@
   font-weight: 600 !important;
 }
 
-.submitBtn {
+.enableSubmitBtn,
+.disableSubmitBtn {
   text-transform: none !important;
-  background-color: #a59b92 !important; /* Muted taupe/gray from the design */
   color: #ffffff !important;
   border-radius: 8px !important;
   padding: 6px 16px !important;
   font-weight: 600 !important;
 }
 
-.submitBtn:hover {
-  background-color: #8c837b !important;
+.disableSubmitBtn {
+  background-color: #989b9b !important;
 }
+.enableSubmitBtn {
+  background-color: #245c55 !important;
+}
+
+
+/* .disableSubmitBtn:hover {
+  background-color: #8c837b !important;
+} */
