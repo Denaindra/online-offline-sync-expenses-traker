@@ -1,0 +1,55 @@
+/* Dialog Base Overrides */
+.dialogPaper {
+  border-radius: 12px !important;
+  padding: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.dialogTitle {
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  color: #1f2937 !important;
+  padding: 16px 24px 8px 24px !important;
+}
+
+.dialogContent {
+  padding: 0 24px 24px 24px !important;
+}
+
+.dialogText {
+  color: #4b5563 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+/* Action Buttons */
+.dialogActions {
+  padding: 0 24px 16px 24px !important;
+  gap: 8px;
+}
+
+.cancelBtn {
+  text-transform: none !important;
+  color: #0f172a !important; /* Dark text */
+  border: 1px solid #e2e8f0 !important; /* Light gray border */
+  border-radius: 8px !important;
+  padding: 6px 16px !important;
+  font-weight: 500 !important;
+}
+
+.cancelBtn:hover {
+  background-color: #f8fafc !important;
+}
+
+.deleteBtn {
+  text-transform: none !important;
+  background-color: #b91c1c !important; /* Deep red background */
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  padding: 6px 16px !important;
+  font-weight: 500 !important;
+}
+
+.deleteBtn:hover {
+  background-color: #991b1b !important; /* Darker red on hover */
+}
