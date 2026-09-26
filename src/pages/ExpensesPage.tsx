@@ -1,6 +1,8 @@
-import { Card } from '../features/expenses/componets/cards/Card';
-import styles from './ExpensesPage.module.css';
-import { useState } from 'react'
+import Button from "@mui/material/Button";
+import { Card } from "../features/expenses/componets/cards/Card";
+import styles from "./ExpensesPage.module.css";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { useState } from "react";
 const ExpensesPage = () => {
   return (
     <div className={styles.page}>
@@ -13,8 +15,10 @@ const ExpensesPage = () => {
 
           <div className={styles.headerActions}>
             <span>Offline</span>
-                 <span>SyncStatus</span>
-                 <span>Add expense</span>
+            <span>SyncStatus</span>
+            <Button variant="contained" startIcon={<AddOutlinedIcon />}>
+              Add expense
+            </Button>
             {/* <SyncStatus /> */}
             {/* <Button onClick={openAddModal}>Add expense</Button> */}
           </div>
@@ -23,10 +27,10 @@ const ExpensesPage = () => {
         {/* <OfflineBanner /> */}
 
         <section className={styles.summary} aria-label="Summary">
-            <Card />
-               <Card />
-                  <Card />
-            {/* <span>SummaryCard</span>
+          <Card />
+          <Card />
+          <Card />
+          {/* <span>SummaryCard</span>
             <span>SummaryCard</span>     */}
           {/* <SummaryCard label="Spent this month" value={...} /> x3 */}
         </section>
@@ -40,7 +44,7 @@ const ExpensesPage = () => {
 
         <section className={styles.listSection} aria-label="Expense history">
           {/* <ExpenseList /> */}
-               <span>ExpenseList</span>
+          <span>ExpenseList</span>
         </section>
       </main>
 
