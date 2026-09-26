@@ -1,0 +1,44 @@
+.filterContainer {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px;
+  /* Hide scrollbar for a cleaner UI */
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+}
+
+.filterContainer::-webkit-scrollbar {
+  display: none;
+}
+
+/* 
+  Note: !important is used here to reliably override MUI's default injected styles 
+  when using standard CSS Modules without deep theme configuration.
+*/
+.chipBase {
+  font-family: inherit !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  height: 36px !important;
+  border-radius: 20px !important;
+  padding: 0 4px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.activeChip {
+  background-color: #245c55 !important; /* Dark teal/green */
+  color: #ffffff !important;
+  border: 1px solid #245c55 !important;
+}
+
+.inactiveChip {
+  background-color: #ffffff !important;
+  color: #4b5563 !important; /* Dark gray */
+  border: 1px solid #e5e7eb !important; /* Light gray border */
+}
+
+.inactiveChip:hover {
+  background-color: #f3f4f6 !important;
+}

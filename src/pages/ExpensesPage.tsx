@@ -1,8 +1,9 @@
 import Button from "@mui/material/Button";
-import { Card } from "../features/expenses/componets/cards/Card";
+import { StatusCard } from "../features/expenses/componets/cards/StatusCard";
 import styles from "./ExpensesPage.module.css";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useState } from "react";
+import { CategoryFilter } from "../features/expenses/componets/CategoryFilters/CategoryFilter";
 const ExpensesPage = () => {
   return (
     <div className={styles.page}>
@@ -14,8 +15,7 @@ const ExpensesPage = () => {
           </div>
 
           <div className={styles.headerActions}>
-            <span>Offline</span>
-            <span>SyncStatus</span>
+            <span>All Changes Sychronized</span>
             <Button variant="contained" startIcon={<AddOutlinedIcon />}>
               Add expense
             </Button>
@@ -38,7 +38,7 @@ const ExpensesPage = () => {
         <div className={styles.toolbar}>
           {/* <CategoryFilter /> */}
           {/* <SortSelect /> */}
-          <span>CategoryFilter</span>
+         <CategoryFilter />
           <span>SortSelect</span>
         </div>
 
