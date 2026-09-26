@@ -3,7 +3,9 @@ import { StatusCard } from "../features/expenses/componets/cards/StatusCard";
 import styles from "./ExpensesPage.module.css";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useState } from "react";
-import { CategoryFilter } from "../features/expenses/componets/CategoryFilters/CategoryFilter";
+import { Sort } from "@mui/icons-material";
+import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
+import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 const ExpensesPage = () => {
   return (
     <div className={styles.page}>
@@ -39,7 +41,7 @@ const ExpensesPage = () => {
           {/* <CategoryFilter /> */}
           {/* <SortSelect /> */}
          <CategoryFilter />
-          <span>SortSelect</span>
+          <SortControl />
         </div>
 
         <section className={styles.listSection} aria-label="Expense history">
