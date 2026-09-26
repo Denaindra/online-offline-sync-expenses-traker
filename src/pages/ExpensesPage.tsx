@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Sort } from "@mui/icons-material";
 import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
+import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
 const ExpensesPage = () => {
   return (
     <div className={styles.page}>
@@ -38,14 +39,12 @@ const ExpensesPage = () => {
         </section>
 
         <div className={styles.toolbar}>
-          {/* <CategoryFilter /> */}
-          {/* <SortSelect /> */}
          <CategoryFilter />
           <SortControl />
         </div>
 
         <section className={styles.listSection} aria-label="Expense history">
-          {/* <ExpenseList /> */}
+          <ExpenseTable />
           <span>ExpenseList</span>
         </section>
       </main>
