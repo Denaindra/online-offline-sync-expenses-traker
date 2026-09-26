@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,17 +14,24 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import styles from "./ExpenseTable.module.css";
 import MOCK_EXPENSES from "../../../../mock/Expenses";
-import FooterContainer from "../expensesFooterContainer/footerContainer";
+import FooterContainer from "../expensesFooterContainer/FooterContainer";
+import { DeleteExpenses } from "../deleteExpensesModal/DeleteExpenses";
 
+
+export const ExpenseTable = () => {
+  const [isDeleteExpenseOpen, setIsDeleteExpenseOpen] = useState(false);
+  
 const formatCurrency = (amount: number) => {
   return `LKR ${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
-export const ExpenseTable = () => {
-  const currentCount = 6;
-  const totalCount = 13;
+const handleDelete = (isOpen: boolean) => {
+  setIsDeleteExpenseOpen(isOpen);
+};
+
 
   return (
+    <div> 
     <TableContainer
       component={Paper}
       className={styles.tableContainer}
@@ -86,7 +93,7 @@ export const ExpenseTable = () => {
                   aria-label="delete"
                   className={styles.deleteIcon}
                 >
-                  <DeleteOutlineOutlinedIcon fontSize="small" />
+                  <DeleteOutlineOutlinedIcon fontSize="small" onClick={() => handleDelete(true)} />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -95,5 +102,14 @@ export const ExpenseTable = () => {
       </Table>
       <FooterContainer />
     </TableContainer>
+
+    <DeleteExpenses
+      open={isDeleteExpenseOpen}
+      onClose={() => handleDelete(false)}
+      onConfirm={()=> console.log('Close delete expense dialog')}
+      expenseTitle="health insurance"
+      expenseAmount="$200"
+    />
+    </div>
   );
 };
