@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import styles from './expenseTable.module.css';
-import MOCK_EXPENSES from '../../../../shared/Expenses';
+import MOCK_EXPENSES from '../../../../mock/Expenses';
 
 
 
