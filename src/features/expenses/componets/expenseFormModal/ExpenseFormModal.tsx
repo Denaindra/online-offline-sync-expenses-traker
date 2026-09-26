@@ -16,9 +16,10 @@ import  styles  from "./ExpenseFormModal.module.css";
 interface ExpenseFormModalProps {
   open: boolean;
   onClose: () => void;
+  isEddit: boolean;
 }
 
-export const ExpenseFormModal = ({ open, onClose }: ExpenseFormModalProps) => {
+export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalProps) => {
 
     const [title, setTitle] = React.useState('');
 
@@ -32,7 +33,7 @@ export const ExpenseFormModal = ({ open, onClose }: ExpenseFormModalProps) => {
       classes={{ paper: styles.dialogPaper }}
     >
       <DialogTitle className={styles.dialogTitle}>
-        Add expense
+        {isEddit ? 'Edit expense' : 'Add expense'}
         <IconButton
           aria-label="close"
           onClick={onClose}
@@ -115,7 +116,7 @@ export const ExpenseFormModal = ({ open, onClose }: ExpenseFormModalProps) => {
           className={title ? styles.enableSubmitBtn : styles.disableSubmitBtn}
           disableElevation
         >
-          Add expense
+          {isEddit ? 'Save changes' : 'Add expense'}
         </Button>
       </DialogActions>
     </Dialog>

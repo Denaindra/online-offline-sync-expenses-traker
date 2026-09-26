@@ -16,10 +16,13 @@ import styles from "./ExpenseTable.module.css";
 import MOCK_EXPENSES from "../../../../mock/Expenses";
 import FooterContainer from "../expensesFooterContainer/FooterContainer";
 import { DeleteExpenses } from "../deleteExpensesModal/DeleteExpenses";
+import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
 
 
 export const ExpenseTable = () => {
   const [isDeleteExpenseOpen, setIsDeleteExpenseOpen] = useState(false);
+  const [isEdditExpenseOpen, setIsEdditExpenseOpen] = useState(false);
+
   
 const formatCurrency = (amount: number) => {
   return `LKR ${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -28,7 +31,6 @@ const formatCurrency = (amount: number) => {
 const handleDelete = (isOpen: boolean) => {
   setIsDeleteExpenseOpen(isOpen);
 };
-
 
   return (
     <div> 
@@ -86,7 +88,7 @@ const handleDelete = (isOpen: boolean) => {
                   aria-label="edit"
                   className={styles.actionIcon}
                 >
-                  <EditOutlinedIcon fontSize="small" />
+                  <EditOutlinedIcon fontSize="small" onClick={() => setIsEdditExpenseOpen(true)} />
                 </IconButton>
                 <IconButton
                   size="small"
@@ -110,6 +112,11 @@ const handleDelete = (isOpen: boolean) => {
       expenseTitle="health insurance"
       expenseAmount="$200"
     />
+      <ExpenseFormModal
+        open={isEdditExpenseOpen}
+        onClose={() => setIsEdditExpenseOpen(false)}
+        isEddit = {true}
+      />
     </div>
   );
 };

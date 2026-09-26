@@ -67,6 +67,7 @@ function ExpensesPage() {
       <ExpenseFormModal
         open={isAddExpenseOpen}
         onClose={CloseAddExpensesPopup}
+        isEddit = {false}
       />
       {/* <DeleteExpenseDialog /> */}
       {/* <Toast /> */}
