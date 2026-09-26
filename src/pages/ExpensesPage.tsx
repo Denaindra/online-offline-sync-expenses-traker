@@ -1,13 +1,24 @@
 import Button from "@mui/material/Button";
 import { StatusCard } from "../features/expenses/componets/cards/StatusCard";
 import styles from "./ExpensesPage.module.css";
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useState } from "react";
 import { Sort } from "@mui/icons-material";
 import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
-const ExpensesPage = () => {
+import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
+
+function ExpensesPage() {
+  const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+
+  const OpenAddExpensesPopup = () => {
+    setIsAddExpenseOpen(true);
+  };
+  const CloseAddExpensesPopup = () => {
+    setIsAddExpenseOpen(false);
+  };
+
   return (
     <div className={styles.page}>
       <main className={styles.container}>
@@ -19,7 +30,11 @@ const ExpensesPage = () => {
 
           <div className={styles.headerActions}>
             <span>All Changes Sychronized</span>
-            <Button variant="contained" startIcon={<AddOutlinedIcon />}>
+            <Button
+              variant="contained"
+              startIcon={<AddOutlinedIcon />}
+              onClick={() => OpenAddExpensesPopup()}
+            >
               Add expense
             </Button>
             {/* <SyncStatus /> */}
@@ -39,7 +54,7 @@ const ExpensesPage = () => {
         </section>
 
         <div className={styles.toolbar}>
-         <CategoryFilter />
+          <CategoryFilter />
           <SortControl />
         </div>
 
@@ -49,11 +64,14 @@ const ExpensesPage = () => {
       </main>
 
       {/* Modals and toast render here, outside the main flow */}
-      {/* <ExpenseFormModal /> */}
+      <ExpenseFormModal
+        open={isAddExpenseOpen}
+        onClose={CloseAddExpensesPopup}
+      />
       {/* <DeleteExpenseDialog /> */}
       {/* <Toast /> */}
     </div>
   );
-};
+}
 
 export default ExpensesPage;
