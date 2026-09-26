@@ -10,8 +10,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
-import { FILTER_CATEGORIES } from '@/shared/constants/categories'; // Reusing your constants
-import styles from './expenseFormModal.module.css';
+import { CATEGORIES } from '../../../../shared/Categories';
+import  styles  from "./ExpenseFormModal.module.css";
 
 interface ExpenseFormModalProps {
   open: boolean;
@@ -75,11 +75,11 @@ export const ExpenseFormModal = ({ open, onClose }: ExpenseFormModalProps) => {
             className={styles.inputField}
             displayEmpty
           >
-            
-            <MenuItem value="Food">Food</MenuItem>
-            <MenuItem value="Travel">Travel</MenuItem>
-            <MenuItem value="Shopping">Shopping</MenuItem>
-            <MenuItem value="Bills">Bills</MenuItem>
+           {CATEGORIES.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
 
