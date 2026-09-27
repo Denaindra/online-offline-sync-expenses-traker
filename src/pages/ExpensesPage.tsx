@@ -12,7 +12,11 @@ import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModa
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const[isEdit, setIsEdit] = useState(false);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [selectedExpense, setSelectedExpense] = useState<AddExpenseFormValues | null>(null);
+
+
   const OpenAddExpensesPopup = () => {
     setIsAddExpenseOpen(true);
   };
@@ -43,9 +47,33 @@ const AddExpenses = async (expense: AddExpenseFormValues) => {
   setExpenses((prev) => [...prev, created]);
 };
 
-const EditExpenses = (expense: AddExpenseFormValues) => {
+const EditExpenses = async (expense: AddExpenseFormValues) => {
+  console.log('Editing expense:', expense);
+  try {
+              const updated = await expensesApi.update(expense.id, {
+                ...expense,
+                amount: Number(expense.amount),
+              });
+    setExpenses((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
+  } catch (error) {
+    console.error('Failed to edit expense:', error);
+  }
+};
 
+const SelectExpenseForEditAndDelete = (expense: Expense) =>{
+  setIsEdit(true);
+  setSelectedExpense({
+    id: expense.id,
+    title: expense.title,
+    amount: String(expense.amount),
+    date: expense.date,
+    category: expense.category,
+    notes: expense.notes ?? '',
+  });
+  setIsAddExpenseOpen(true);
 }
+
+
 
   return (
     <div className={styles.page}>
@@ -87,7 +115,7 @@ const EditExpenses = (expense: AddExpenseFormValues) => {
         </div>
 
         <section className={styles.listSection} aria-label="Expense history">
-          <ExpenseTable expenses={expenses} />
+          <ExpenseTable expenses={expenses} selectExpenseForEditAndDelete={SelectExpenseForEditAndDelete}/>
         </section>
       </main>
 
@@ -95,9 +123,10 @@ const EditExpenses = (expense: AddExpenseFormValues) => {
       <ExpenseFormModal
         open={isAddExpenseOpen}
         onClose={CloseAddExpensesPopup}
-        isEddit = {false}
+        isEddit = {isEdit}
         AddExpenses={AddExpenses}
         EditExpenses={EditExpenses}
+        selectedExpense={selectedExpense}
       />
       {/* <DeleteExpenseDialog /> */}
       {/* <Toast /> */}

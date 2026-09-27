@@ -10,6 +10,7 @@ export interface Expense {
 }
 
 export interface AddExpenseFormValues {
+  id: string;
   title: string;
   amount: string;
   date: string;

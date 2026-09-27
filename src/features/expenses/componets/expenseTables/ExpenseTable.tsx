@@ -13,18 +13,19 @@ import styles from "./ExpenseTable.module.css";
 import FooterContainer from "../expensesFooterContainer/FooterContainer";
 import { DeleteExpenses } from "../deleteExpensesModal/DeleteExpenses";
 import { useState } from "react";
-import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
+//import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
 import type { Expense } from "../../expense.types";
+import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
 
 
 
 interface ExpenseTableProps {
   expenses: Expense[];
+  selectExpenseForEditAndDelete: (expense: Expense) => void;
 }
 
-export const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
+export const ExpenseTable = ({ expenses, selectExpenseForEditAndDelete }: ExpenseTableProps) => {
   const [isDeleteExpenseOpen, setIsDeleteExpenseOpen] = useState(false);
-  const [isEdditExpenseOpen, setIsEdditExpenseOpen] = useState(false);
 
   
 const formatCurrency = (amount: number) => {
@@ -88,7 +89,7 @@ const handleDelete = (isOpen: boolean) => {
                   aria-label="edit"
                   className={styles.actionIcon}
                 >
-                  <EditOutlinedIcon fontSize="small" onClick={() => setIsEdditExpenseOpen(true)} />
+                  <EditOutlinedIcon fontSize="small" onClick={() => selectExpenseForEditAndDelete(row)} />
                 </IconButton>
                 <IconButton
                   size="small"
@@ -112,11 +113,6 @@ const handleDelete = (isOpen: boolean) => {
       expenseTitle="health insurance"
       expenseAmount="$200"
     />
-      <ExpenseFormModal
-        open={isEdditExpenseOpen}
-        onClose={() => setIsEdditExpenseOpen(false)}
-        isEddit = {true}
-      />
     </div>
   );
 };

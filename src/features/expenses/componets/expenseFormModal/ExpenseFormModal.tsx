@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -18,11 +18,13 @@ interface ExpenseFormModalProps {
   open: boolean;
   onClose: () => void;
   isEddit: boolean;
-  AddExpenses: (expense: AddExpenseFormValues) => void;
-  EditExpenses: (expense: AddExpenseFormValues) => void;
+  AddExpenses: (expense: AddExpenseFormValues) => Promise<void>;
+  EditExpenses: (expense: AddExpenseFormValues) => Promise<void>;
+  selectedExpense: AddExpenseFormValues | null; 
 }
 
 const emptyForm = (): AddExpenseFormValues => ({
+  id: '',
   title: '',
   amount: '',
   date: '',
@@ -30,10 +32,9 @@ const emptyForm = (): AddExpenseFormValues => ({
   notes: '',
 });
 
- export const ExpenseFormModal = ({ open, onClose, isEddit, AddExpenses, EditExpenses }: ExpenseFormModalProps) => {
+ export const ExpenseFormModal = ({ open, onClose, isEddit, AddExpenses, EditExpenses, selectedExpense }: ExpenseFormModalProps) => {
 
-    const [currentExpenses, setCurrentExpenses] = React.useState<AddExpenseFormValues>(emptyForm);
-
+ const [currentExpenses, setCurrentExpenses] = React.useState<AddExpenseFormValues>(emptyForm);
  const ManageExpense = ()=>{
   if (isEddit) {
     EditExpenses(currentExpenses!);
@@ -43,6 +44,20 @@ const emptyForm = (): AddExpenseFormValues => ({
     onClose();
   }
  }
+
+useEffect(() => {
+  if (!open) {
+    setCurrentExpenses(emptyForm());
+  }
+}, [open]); 
+
+useEffect(() => {
+  if (isEddit && selectedExpense) {
+     console.log('Editing expense:', selectedExpense);
+     setCurrentExpenses(selectedExpense);
+  }
+}, [selectedExpense]); 
+
 
   return (
     <Dialog 

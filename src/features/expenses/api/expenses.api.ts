@@ -22,4 +22,13 @@ export const expensesApi = {
     }
     return res.json();
   },
+   async update(id: string, expense: NewExpense): Promise<Expense> {
+    const res = await fetch(`${BASE_URL}/expenses/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(expense),
+    });
+    if (!res.ok) throw new Error(`Failed to update expense (${res.status})`);
+    return res.json();
+  },
 };
