@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import styles from "./ExpenseTable.module.css";
-import MOCK_EXPENSES from "../../../../mock/Expenses";
+import MOCK_EXPENSES from "../../../../mock/expenses";
 import FooterContainer from "../expensesFooterContainer/FooterContainer";
 import { DeleteExpenses } from "../deleteExpensesModal/DeleteExpenses";
 import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";

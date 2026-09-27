@@ -2,12 +2,13 @@ import Button from "@mui/material/Button";
 import { StatusCard } from "../features/expenses/componets/cards/StatusCard";
 import styles from "./ExpensesPage.module.css";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sort } from "@mui/icons-material";
 import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
 import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
+import { expensesApi } from "../features/expenses/api/expenses.api";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -18,6 +19,21 @@ function ExpensesPage() {
   const CloseAddExpensesPopup = () => {
     setIsAddExpenseOpen(false);
   };
+
+
+useEffect(() => {
+  const fetchExpenses = async () => {
+    console.log('Fetching expenses...');
+    try {
+      const ExpenseData = await expensesApi.getAll();
+      
+    } catch (error) {
+      console.error('Failed to fetch expenses:', error);
+    }
+  };
+  fetchExpenses();
+}, []);
+
 
   return (
     <div className={styles.page}>

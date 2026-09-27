@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
-import { CATEGORIES } from '../../../../shared/Categories';
+import { CATEGORIES } from '../../../../shared/categories';
 import  styles  from "./ExpenseFormModal.module.css";
 
 interface ExpenseFormModalProps {
