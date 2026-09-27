@@ -23,6 +23,9 @@ function ExpensesPage() {
   };
   const CloseAddExpensesPopup = () => {
     setIsAddExpenseOpen(false);
+    if (isEdit) {
+      setIsEdit(false);
+    }
   };
 
 
