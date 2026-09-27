@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { StatusCard } from "../features/expenses/componets/cards/StatusCard";
 import styles from "./ExpensesPage.module.css";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
@@ -10,6 +10,7 @@ import { expensesApi } from "../features/expenses/api/expenses.api";
 import type { AddExpenseFormValues, Expense } from "../features/expenses/expense.types";
 import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
 import { DeleteExpenses } from "../features/expenses/componets/deleteExpensesModal/DeleteExpenses";
+import FooterContainer from "../features/expenses/componets/expensesFooterContainer/FooterContainer";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -17,6 +18,11 @@ function ExpensesPage() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [selectedExpense, setSelectedExpense] = useState<AddExpenseFormValues | null>(null);
   const [isDeleteExpenseOpen, setIsDeleteExpenseOpen] = useState(false);
+  const PAGE_SIZE = 6;
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const OpenAddExpensesPopup = () => {
     setIsAddExpenseOpen(true);
@@ -28,19 +34,53 @@ function ExpensesPage() {
     }
   };
 
-
-useEffect(() => {
-  const fetchExpenses = async () => {
-    console.log('Fetching expenses...');
+  const loadExpenses = useCallback(async () => {
     try {
-      const ExpenseData = await expensesApi.getAll();
-      setExpenses(ExpenseData);
-    } catch (error) {
-      console.error('Failed to fetch expenses:', error);
+      const result = await expensesApi.getPage(1, PAGE_SIZE);
+      setExpenses(result.data);
+      setTotal(result.total);
+      setHasMore(result.hasMore);
+      setPage(1);
+    } catch {
+    } finally {
     }
-  };
-  fetchExpenses();
-}, []);
+  }, []);
+
+  const loadMore = useCallback(async () => {
+  if (loadingMore || !hasMore) return;
+  setLoadingMore(true);
+  try {
+    const nextPage = page + 1;
+    const result = await expensesApi.getPage(nextPage, PAGE_SIZE);
+    setExpenses((prev) => {
+      const existingIds = new Set(prev.map((e) => e.id));
+      return [...prev, ...result.data.filter((e) => !existingIds.has(e.id))];
+    });
+    setTotal(result.total);
+    setHasMore(result.hasMore);
+    setPage(nextPage);
+  } finally {
+    setLoadingMore(false);
+  }
+}, [page, hasMore, loadingMore]);
+
+console.log("Total:", total, "Has More:", hasMore, "Page:", page);
+// useEffect(() => {
+//   const fetchExpenses = async () => {
+//     console.log('Fetching expenses...');
+//     try {
+//       const ExpenseData = await expensesApi.getAll();
+//       setExpenses(ExpenseData);
+//     } catch (error) {
+//       console.error('Failed to fetch expenses:', error);
+//     }
+//   };
+//   fetchExpenses();
+// }, []);
+
+  useEffect(() => {
+    loadExpenses();
+  }, [loadExpenses]);
 
 const AddExpenses = async (expense: AddExpenseFormValues) => {
   console.log('Adding expense:', expense);
@@ -143,6 +183,7 @@ const DeleteExpense = async () => {
 
         <section className={styles.listSection} aria-label="Expense history">
           <ExpenseTable expenses={expenses} selectExpenseForEdit={SelectExpenseForEdit} SelectExpenseForDelete={SelectExpenseForDelete} />
+          <FooterContainer loadMore={loadMore} page={page} total={total}/>
         </section>
       </main>
 

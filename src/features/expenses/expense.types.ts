@@ -17,3 +17,9 @@ export interface AddExpenseFormValues {
   category: Category;
   notes: string;
 }
+
+export interface ExpensePage {
+  data: Expense[];
+  total: number;
+  hasMore: boolean;
+}

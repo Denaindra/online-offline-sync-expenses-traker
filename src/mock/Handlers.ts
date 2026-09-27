@@ -7,10 +7,22 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 let expenses: Expense[] = [...MOCK_EXPENSES];
 
 export const handlers = [
-  http.get(`${BASE_URL}/expenses`, async () => {
-    await delay(300);
-    return HttpResponse.json(expenses);
-  }),
+  http.get(`${BASE_URL}/expenses`, async ({ request }) => {
+  await delay(300);
+
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get('page') ?? 1);
+  const pageSize = Number(url.searchParams.get('pageSize') ?? 6);
+
+  const start = (page - 1) * pageSize;
+  const data = expenses.slice(start, start + pageSize);
+
+  return HttpResponse.json({
+    data,
+    total: expenses.length,
+    hasMore: start + pageSize < expenses.length,
+  });
+}),
 
   http.post(`${BASE_URL}/expenses`, async ({ request }) => {
     await delay(300);

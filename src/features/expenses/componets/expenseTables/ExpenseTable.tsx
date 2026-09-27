@@ -98,7 +98,7 @@ export const ExpenseTable = ({ expenses, selectExpenseForEdit: selectExpenseForE
           ))}
         </TableBody>
       </Table>
-      <FooterContainer />
+      {/* <FooterContainer /> */}
     </TableContainer>
 
     {/* <DeleteExpenses
