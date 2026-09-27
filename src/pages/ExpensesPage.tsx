@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
-import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
 import { expensesApi } from "../features/expenses/api/expenses.api";
-import type { Expense } from "../features/expenses/expense.types";
+import type { AddExpenseFormValues, Expense } from "../features/expenses/expense.types";
+import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -34,6 +34,18 @@ useEffect(() => {
   fetchExpenses();
 }, []);
 
+const AddExpenses = async (expense: AddExpenseFormValues) => {
+  console.log('Adding expense:', expense);
+  const created = await expensesApi.create({
+    ...expense,
+    amount: Number(expense.amount),
+  });
+  setExpenses((prev) => [...prev, created]);
+};
+
+const EditExpenses = (expense: AddExpenseFormValues) => {
+
+}
 
   return (
     <div className={styles.page}>
@@ -84,6 +96,8 @@ useEffect(() => {
         open={isAddExpenseOpen}
         onClose={CloseAddExpensesPopup}
         isEddit = {false}
+        AddExpenses={AddExpenses}
+        EditExpenses={EditExpenses}
       />
       {/* <DeleteExpenseDialog /> */}
       {/* <Toast /> */}

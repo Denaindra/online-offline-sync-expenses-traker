@@ -12,17 +12,37 @@ import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import { CATEGORIES } from '../../../../shared/categories';
 import  styles  from "./ExpenseFormModal.module.css";
+import type { AddExpenseFormValues, Category } from '../../expense.types';
 
 interface ExpenseFormModalProps {
   open: boolean;
   onClose: () => void;
   isEddit: boolean;
+  AddExpenses: (expense: AddExpenseFormValues) => void;
+  EditExpenses: (expense: AddExpenseFormValues) => void;
 }
 
-export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalProps) => {
+const emptyForm = (): AddExpenseFormValues => ({
+  title: '',
+  amount: '',
+  date: '',
+  category: 'Other',
+  notes: '',
+});
 
-    const [title, setTitle] = React.useState('');
+ export const ExpenseFormModal = ({ open, onClose, isEddit, AddExpenses, EditExpenses }: ExpenseFormModalProps) => {
 
+    const [currentExpenses, setCurrentExpenses] = React.useState<AddExpenseFormValues>(emptyForm);
+
+ const ManageExpense = ()=>{
+  if (isEddit) {
+    EditExpenses(currentExpenses!);
+    onClose();
+  } else {
+    AddExpenses(currentExpenses!);
+    onClose();
+  }
+ }
 
   return (
     <Dialog 
@@ -48,9 +68,10 @@ export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalPro
           <label className={styles.label}>Title</label>
           <OutlinedInput 
             fullWidth 
+            onChange={(e) => setCurrentExpenses({ ...currentExpenses, title: e.target.value })}
+            value={currentExpenses.title}
             placeholder="e.g. Lunch with team" 
             className={styles.inputField}
-            onChange={(e) => setTitle(e.target.value)}
           />
         </Box>
 
@@ -59,6 +80,8 @@ export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalPro
             <label className={styles.label}>Amount (LKR)</label>
             <OutlinedInput 
               fullWidth 
+              onChange={(e) => setCurrentExpenses({ ...currentExpenses, amount: e.target.value })}
+              value={currentExpenses.amount}
               placeholder="0.00" 
               className={styles.inputField}
             />
@@ -67,7 +90,9 @@ export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalPro
             <label className={styles.label}>Date</label>
             <OutlinedInput 
               fullWidth 
+              onChange={(e) => setCurrentExpenses({ ...currentExpenses, date: e.target.value })}
               type="date"
+              value={currentExpenses.date}
               className={styles.inputField}
             />
           </Box>
@@ -77,7 +102,9 @@ export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalPro
           <label className={styles.label}>Category</label>
           <Select 
             fullWidth 
-            defaultValue="Food"
+            defaultValue="Other"
+            onChange={(e) => setCurrentExpenses({ ...currentExpenses, category: e.target.value as Category })}
+            value={currentExpenses.category}
             className={styles.inputField}
             displayEmpty
           >
@@ -97,6 +124,8 @@ export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalPro
             fullWidth 
             multiline
             rows={3}
+            onChange={(e) => setCurrentExpenses({ ...currentExpenses, notes: e.target.value })}
+            value={currentExpenses.notes}
             placeholder="Anything worth remembering" 
             className={styles.inputField}
           />
@@ -113,8 +142,9 @@ export const ExpenseFormModal = ({ open, onClose, isEddit }: ExpenseFormModalPro
         </Button>
         <Button 
           variant="contained" 
-          className={title ? styles.enableSubmitBtn : styles.disableSubmitBtn}
+          className={currentExpenses.title ? styles.enableSubmitBtn : styles.disableSubmitBtn}
           disableElevation
+          onClick={ManageExpense}
         >
           {isEddit ? 'Save changes' : 'Add expense'}
         </Button>

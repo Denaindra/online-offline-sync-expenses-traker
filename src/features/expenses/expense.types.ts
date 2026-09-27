@@ -4,7 +4,15 @@ export interface Expense {
   id: string;
   title: string;
   amount: number;
-  date: string; // ISO format, e.g. 2026-09-24
+  date: string; 
   category: Category;
   notes?: string;
+}
+
+export interface AddExpenseFormValues {
+  title: string;
+  amount: string;
+  date: string;
+  category: Category;
+  notes: string;
 }
