@@ -1,5 +1,4 @@
-// features/expenses/utils/sortExpenses.ts
-import type { Expense, SortOption } from '../expense.types';
+import type { Category, Expense, SortOption } from '../expense.types';
 
 const sorters: Record<SortOption, (a: Expense, b: Expense) => number> = {
   'date-desc': (a, b) => b.date.localeCompare(a.date),
@@ -10,3 +9,11 @@ const sorters: Record<SortOption, (a: Expense, b: Expense) => number> = {
 
 export const sortExpenses = (expenses: Expense[], sort: SortOption): Expense[] =>
   [...expenses].sort(sorters[sort]);
+
+export const filterExpensesByCategory = (
+  expenses: Expense[],
+  category: Category | 'All',
+): Expense[] =>
+  category === 'All'
+    ? expenses
+    : expenses.filter((expense) => expense.category === category);

@@ -5,17 +5,19 @@ import Select from '@mui/material/Select';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import styles from './sortControl.module.css';
+import type { SortOption } from '../../expense.types';
 
 interface SortControlProps {
-  setSort: (sort: string) => void;
+  setSort: (sort: SortOption) => void;
 } 
 
 export const SortControl = ({ setSort }: SortControlProps) => {
   const [sortValue, setSortValue] = useState('date-desc');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSortValue(event.target.value);
-    setSort(event.target.value);
+    const nextSort = event.target.value as SortOption;
+    setSortValue(nextSort);
+    setSort(nextSort);
   };
 
   return (

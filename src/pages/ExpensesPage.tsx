@@ -7,11 +7,11 @@ import { SortControl } from "../features/expenses/componets/sortControler/SortCo
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
 import { expensesApi } from "../features/expenses/api/expenses.api";
-import type { AddExpenseFormValues, Expense, SortOption } from "../features/expenses/expense.types";
+import type { AddExpenseFormValues, Category, Expense, SortOption } from "../features/expenses/expense.types";
 import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
 import { DeleteExpenses } from "../features/expenses/componets/deleteExpensesModal/DeleteExpenses";
 import FooterContainer from "../features/expenses/componets/expensesFooterContainer/FooterContainer";
-import { sortExpenses } from "../features/expenses/utils/sortExpenses";
+import { filterExpensesByCategory, sortExpenses } from "../features/expenses/utils/sortExpenses";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -25,7 +25,16 @@ function ExpensesPage() {
   const [hasMore, setHasMore] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [sort, setSort] = useState<SortOption>("date-desc");
-  const sortedExpenses = useMemo(() => sortExpenses(expenses, sort), [expenses, sort]);
+  const [category, setCategory] = useState<Category | 'All'>('All');
+  
+  const filteredExpenses = useMemo(
+    () => filterExpensesByCategory(expenses, category),
+    [expenses, category],
+  );
+  const sortedExpenses = useMemo(
+    () => sortExpenses(filteredExpenses, sort),
+    [filteredExpenses, sort],
+  );
   
   const OpenAddExpensesPopup = () => {
     setIsAddExpenseOpen(true);
@@ -180,7 +189,7 @@ const DeleteExpense = async () => {
         </section>
 
         <div className={styles.toolbar}>
-          <CategoryFilter />
+          <CategoryFilter activeCategory={category} onCategoryChange={setCategory} />
           <SortControl setSort={setSort} />
         </div>
 
