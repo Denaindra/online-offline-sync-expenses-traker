@@ -2,15 +2,16 @@ import Button from "@mui/material/Button";
 import { StatusCard } from "../features/expenses/componets/cards/StatusCard";
 import styles from "./ExpensesPage.module.css";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
 import { expensesApi } from "../features/expenses/api/expenses.api";
-import type { AddExpenseFormValues, Expense } from "../features/expenses/expense.types";
+import type { AddExpenseFormValues, Expense, SortOption } from "../features/expenses/expense.types";
 import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
 import { DeleteExpenses } from "../features/expenses/componets/deleteExpensesModal/DeleteExpenses";
 import FooterContainer from "../features/expenses/componets/expensesFooterContainer/FooterContainer";
+import { sortExpenses } from "../features/expenses/utils/sortExpenses";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -23,7 +24,9 @@ function ExpensesPage() {
   const [total, setTotal] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-
+  const [sort, setSort] = useState<SortOption>("date-desc");
+  const sortedExpenses = useMemo(() => sortExpenses(expenses, sort), [expenses, sort]);
+  
   const OpenAddExpensesPopup = () => {
     setIsAddExpenseOpen(true);
   };
@@ -178,11 +181,11 @@ const DeleteExpense = async () => {
 
         <div className={styles.toolbar}>
           <CategoryFilter />
-          <SortControl />
+          <SortControl setSort={setSort} />
         </div>
 
         <section className={styles.listSection} aria-label="Expense history">
-          <ExpenseTable expenses={expenses} selectExpenseForEdit={SelectExpenseForEdit} SelectExpenseForDelete={SelectExpenseForDelete} />
+          <ExpenseTable expenses={sortedExpenses} selectExpenseForEdit={SelectExpenseForEdit} SelectExpenseForDelete={SelectExpenseForDelete} />
           <FooterContainer loadMore={loadMore} page={page} total={total}/>
         </section>
       </main>

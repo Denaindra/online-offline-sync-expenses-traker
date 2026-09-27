@@ -1,4 +1,5 @@
 export type Category = 'Food' | 'Travel' | 'Shopping' | 'Bills' | 'Health' | 'Other';
+export type SortOption = 'date-desc' | 'date-asc' | 'amount-desc' | 'amount-asc';
 
 export interface Expense {
   id: string;

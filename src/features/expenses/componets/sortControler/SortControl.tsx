@@ -6,11 +6,16 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import styles from './sortControl.module.css';
 
-export const SortControl = () => {
-  const [sortValue, setSortValue] = useState('newest');
+interface SortControlProps {
+  setSort: (sort: string) => void;
+} 
+
+export const SortControl = ({ setSort }: SortControlProps) => {
+  const [sortValue, setSortValue] = useState('date-desc');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSortValue(event.target.value);   
+    setSortValue(event.target.value);
+    setSort(event.target.value);
   };
 
   return (
@@ -28,10 +33,10 @@ export const SortControl = () => {
           disableScrollLock: true, // Prevents layout shift when dropdown opens
         }}
       >
-        <MenuItem value="newest">Newest first</MenuItem>
-        <MenuItem value="oldest">Oldest first</MenuItem>
-        <MenuItem value="amount_high">Highest amount</MenuItem>
-        <MenuItem value="amount_low">Lowest amount</MenuItem>
+        <MenuItem value="date-desc">Newest first</MenuItem>
+        <MenuItem value="date-asc">Oldest first</MenuItem>
+        <MenuItem value="amount-desc">Highest amount</MenuItem>
+        <MenuItem value="amount-asc">Lowest amount</MenuItem>
       </Select>
     </Box>
   );
