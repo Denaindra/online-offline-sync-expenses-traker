@@ -3,16 +3,16 @@ import { StatusCard } from "../features/expenses/componets/cards/StatusCard";
 import styles from "./ExpensesPage.module.css";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useEffect, useState } from "react";
-import { Sort } from "@mui/icons-material";
 import { SortControl } from "../features/expenses/componets/sortControler/SortControl";
 import { CategoryFilter } from "../features/expenses/componets/categoryFilters/CategoryFilter";
 import { ExpenseTable } from "../features/expenses/componets/expenseTables/ExpenseTable";
 import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModal/ExpenseFormModal";
 import { expensesApi } from "../features/expenses/api/expenses.api";
+import type { Expense } from "../features/expenses/expense.types";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
-
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const OpenAddExpensesPopup = () => {
     setIsAddExpenseOpen(true);
   };
@@ -26,7 +26,7 @@ useEffect(() => {
     console.log('Fetching expenses...');
     try {
       const ExpenseData = await expensesApi.getAll();
-      
+      setExpenses(ExpenseData);
     } catch (error) {
       console.error('Failed to fetch expenses:', error);
     }
@@ -75,7 +75,7 @@ useEffect(() => {
         </div>
 
         <section className={styles.listSection} aria-label="Expense history">
-          <ExpenseTable />
+          <ExpenseTable expenses={expenses} />
         </section>
       </main>
 

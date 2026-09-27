@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React  from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,19 +7,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import styles from "./ExpenseTable.module.css";
-import MOCK_EXPENSES from "../../../../mock/expenses";
 import FooterContainer from "../expensesFooterContainer/FooterContainer";
 import { DeleteExpenses } from "../deleteExpensesModal/DeleteExpenses";
+import { useState } from "react";
 import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
+import type { Expense } from "../../expense.types";
 
 
-export const ExpenseTable = () => {
+
+interface ExpenseTableProps {
+  expenses: Expense[];
+}
+
+export const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
   const [isDeleteExpenseOpen, setIsDeleteExpenseOpen] = useState(false);
   const [isEdditExpenseOpen, setIsEdditExpenseOpen] = useState(false);
 
@@ -54,13 +57,10 @@ const handleDelete = (isOpen: boolean) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {MOCK_EXPENSES.map((row) => (
+          {expenses.map((row) => (
             <TableRow key={row.id} className={styles.tableRow}>
               <TableCell className={styles.cell}>
                 <div className={styles.expenseTitle}>{row.title}</div>
-                {row.subtitle && (
-                  <div className={styles.expenseSubtitle}>{row.subtitle}</div>
-                )}
               </TableCell>
 
               <TableCell className={styles.cell}>
