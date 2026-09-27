@@ -95,7 +95,13 @@ useEffect(() => {
             <label className={styles.label}>Amount (LKR)</label>
             <OutlinedInput 
               fullWidth 
-              onChange={(e) => setCurrentExpenses({ ...currentExpenses, amount: e.target.value })}
+              inputMode="decimal"
+              onChange={(e) => {
+                const amount = e.target.value;
+                if (/^\d*\.?\d*$/.test(amount)) {
+                  setCurrentExpenses({ ...currentExpenses, amount });
+                }
+              }}
               value={currentExpenses.amount}
               placeholder="0.00" 
               className={styles.inputField}

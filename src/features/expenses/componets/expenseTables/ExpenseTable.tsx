@@ -16,6 +16,7 @@ import { useState } from "react";
 //import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
 import type { Expense } from "../../expense.types";
 import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
+import { FormatCurrency } from '../../../../shared/utility/formatters';
 
 
 
@@ -28,9 +29,6 @@ interface ExpenseTableProps {
 export const ExpenseTable = ({ expenses, selectExpenseForEdit: selectExpenseForEdit, SelectExpenseForDelete: SelectExpenseForDelete }: ExpenseTableProps) => {
 
   
-const formatCurrency = (amount: number) => {
-  return `LKR ${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-};
 
 
   return (
@@ -76,7 +74,7 @@ const formatCurrency = (amount: number) => {
 
               <TableCell className={styles.cell} align="right">
                 <span className={styles.amountText}>
-                  {formatCurrency(row.amount)}
+                  {FormatCurrency(row.amount)}
                 </span>
               </TableCell>
 
