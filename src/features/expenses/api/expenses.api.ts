@@ -31,4 +31,8 @@ export const expensesApi = {
     if (!res.ok) throw new Error(`Failed to update expense (${res.status})`);
     return res.json();
   },
+    async delete(id: string): Promise<void> {
+    const res = await fetch(`${BASE_URL}/expenses/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error(`Failed to delete expense (${res.status})`);
+  },
 };

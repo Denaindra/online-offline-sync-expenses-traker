@@ -33,4 +33,14 @@ export const handlers = [
     expenses = expenses.map((e) => (e.id === id ? updated : e));
     return HttpResponse.json(updated);
   }),
+
+   http.delete(`${BASE_URL}/expenses/:id`, async ({ params }) => {
+    await delay(300);
+    const id = String(params.id);
+    if (!expenses.some((e) => e.id === id)) {
+      return HttpResponse.json({ message: 'Expense not found' }, { status: 404 });
+    }
+    expenses = expenses.filter((e) => e.id !== id);
+    return new HttpResponse(null, { status: 204 });
+  }),
 ];

@@ -21,20 +21,17 @@ import { ExpenseFormModal } from "../expenseFormModal/ExpenseFormModal";
 
 interface ExpenseTableProps {
   expenses: Expense[];
-  selectExpenseForEditAndDelete: (expense: Expense) => void;
+  selectExpenseForEdit: (expense: Expense) => void;
+  SelectExpenseForDelete: (expense: Expense) => void;
 }
 
-export const ExpenseTable = ({ expenses, selectExpenseForEditAndDelete }: ExpenseTableProps) => {
-  const [isDeleteExpenseOpen, setIsDeleteExpenseOpen] = useState(false);
+export const ExpenseTable = ({ expenses, selectExpenseForEdit: selectExpenseForEdit, SelectExpenseForDelete: SelectExpenseForDelete }: ExpenseTableProps) => {
 
   
 const formatCurrency = (amount: number) => {
   return `LKR ${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
-const handleDelete = (isOpen: boolean) => {
-  setIsDeleteExpenseOpen(isOpen);
-};
 
   return (
     <div> 
@@ -89,14 +86,14 @@ const handleDelete = (isOpen: boolean) => {
                   aria-label="edit"
                   className={styles.actionIcon}
                 >
-                  <EditOutlinedIcon fontSize="small" onClick={() => selectExpenseForEditAndDelete(row)} />
+                  <EditOutlinedIcon fontSize="small" onClick={() => selectExpenseForEdit(row)} />
                 </IconButton>
                 <IconButton
                   size="small"
                   aria-label="delete"
                   className={styles.deleteIcon}
                 >
-                  <DeleteOutlineOutlinedIcon fontSize="small" onClick={() => handleDelete(true)} />
+                  <DeleteOutlineOutlinedIcon fontSize="small" onClick={() => SelectExpenseForDelete(row)} />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -106,13 +103,13 @@ const handleDelete = (isOpen: boolean) => {
       <FooterContainer />
     </TableContainer>
 
-    <DeleteExpenses
+    {/* <DeleteExpenses
       open={isDeleteExpenseOpen}
       onClose={() => handleDelete(false)}
       onConfirm={()=> console.log('Close delete expense dialog')}
       expenseTitle="health insurance"
       expenseAmount="$200"
-    />
+    /> */}
     </div>
   );
 };
