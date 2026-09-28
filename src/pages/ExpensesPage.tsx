@@ -131,15 +131,29 @@ const AddExpenses = async (expense: AddExpenseFormValues) => {
 };
 
 const EditExpenses = async (expense: AddExpenseFormValues) => {
-  console.log('Editing expense:', expense);
   try {
-              const updated = await expensesApi.update(expense.id, {
-                ...expense,
-                amount: Number(expense.amount),
-              });
-    setExpenses((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
+    if (!isOnline) {
+      dispatch(addToQueue({
+        type: "update",
+        expense: {
+          ...expense,
+          amount: Number(expense.amount),
+        },
+      }));
+      setExpenses((prev) =>
+        prev.map((e) => (e.id === expense.id ? { ...e, ...expense, amount: Number(expense.amount) } : e)),
+      );
+    } else {
+      const updated = await expensesApi.update(expense.id, {
+        ...expense,
+        amount: Number(expense.amount),
+      });
+      setExpenses((prev) =>
+        prev.map((e) => (e.id === updated.id ? updated : e)),
+      );
+    }
   } catch (error) {
-    console.error('Failed to edit expense:', error);
+    console.error("Failed to edit expense:", error);
   }
 };
 
