@@ -224,8 +224,7 @@ const DeleteExpense = async () => {
             >
               Add expense
             </Button>
-            {/* <SyncStatus /> */}
-            {/* <Button onClick={openAddModal}>Add expense</Button> */}
+          
           </div>
         </header>
 
