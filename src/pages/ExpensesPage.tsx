@@ -12,6 +12,9 @@ import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModa
 import { DeleteExpenses } from "../features/expenses/componets/deleteExpensesModal/DeleteExpenses";
 import FooterContainer from "../features/expenses/componets/expensesFooterContainer/FooterContainer";
 import { filterExpensesByCategory, sortExpenses } from "../features/expenses/utils/sortExpenses";
+import { OfflineBanner } from "../features/expenses/componets/onlineAndOfflineSync/offlineBanner";
+import { addToQueue } from "../features/sync/networkSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -26,6 +29,10 @@ function ExpensesPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [sort, setSort] = useState<SortOption>("date-desc");
   const [category, setCategory] = useState<Category | 'All'>('All');
+  const isOnline = useSelector(
+    (state: { network: { isOnline: boolean } }) => state.network.isOnline,
+  );
+  const dispatch = useDispatch();
   
   const filteredExpenses = useMemo(
     () => filterExpensesByCategory(expenses, category),
@@ -76,7 +83,6 @@ function ExpensesPage() {
   }
 }, [page, hasMore, loadingMore]);
 
-console.log("Total:", total, "Has More:", hasMore, "Page:", page);
 // useEffect(() => {
 //   const fetchExpenses = async () => {
 //     console.log('Fetching expenses...');
@@ -95,24 +101,58 @@ console.log("Total:", total, "Has More:", hasMore, "Page:", page);
   }, [loadExpenses]);
 
 const AddExpenses = async (expense: AddExpenseFormValues) => {
-  console.log('Adding expense:', expense);
-  const created = await expensesApi.create({
-    ...expense,
-    amount: Number(expense.amount),
-  });
-  setExpenses((prev) => [...prev, created]);
+  if (!isOnline) {
+    dispatch(addToQueue({
+      type: "create",
+      expense: {
+        ...expense,
+        id: crypto.randomUUID(),
+        amount: Number(expense.amount),
+      },
+    }));
+
+     setExpenses((prev) => [...prev, {
+       ...expense,
+       id: crypto.randomUUID(),
+       amount: Number(expense.amount),
+     }]);
+     
+    return;
+  }
+  else
+    {
+      const created = await expensesApi.create({
+        ...expense,
+        amount: Number(expense.amount),
+      });
+      setExpenses((prev) => [...prev, created]);
+    }
 };
 
 const EditExpenses = async (expense: AddExpenseFormValues) => {
-  console.log('Editing expense:', expense);
   try {
-              const updated = await expensesApi.update(expense.id, {
-                ...expense,
-                amount: Number(expense.amount),
-              });
-    setExpenses((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
+    if (!isOnline) {
+      dispatch(addToQueue({
+        type: "update",
+        expense: {
+          ...expense,
+          amount: Number(expense.amount),
+        },
+      }));
+      setExpenses((prev) =>
+        prev.map((e) => (e.id === expense.id ? { ...e, ...expense, amount: Number(expense.amount) } : e)),
+      );
+    } else {
+      const updated = await expensesApi.update(expense.id, {
+        ...expense,
+        amount: Number(expense.amount),
+      });
+      setExpenses((prev) =>
+        prev.map((e) => (e.id === updated.id ? updated : e)),
+      );
+    }
   } catch (error) {
-    console.error('Failed to edit expense:', error);
+    console.error("Failed to edit expense:", error);
   }
 };
 
@@ -130,7 +170,6 @@ const SelectExpenseForEdit = (expense: Expense) =>{
 }
 
 const SelectExpenseForDelete = (expense: Expense) =>{
-  console.log('Selecting expense for delete:', expense);
   setSelectedExpense({
     id: expense.id,
     title: expense.title,
@@ -144,9 +183,22 @@ setIsDeleteExpenseOpen(true);
 
 
 const DeleteExpense = async () => {
+  console.log("Deleting expense:", selectedExpense);
   if (!selectedExpense) return;
   try {
-    await expensesApi.delete(selectedExpense.id);
+    if (!isOnline) {
+      dispatch(
+        addToQueue({
+          type: "delete",
+          expense: {
+            ...selectedExpense,
+            amount: Number(selectedExpense.amount),
+          },
+        }),
+      );
+    } else {
+      await expensesApi.delete(selectedExpense.id);
+    }
     setExpenses((prev) => prev.filter((e) => e.id !== selectedExpense.id));
     setIsDeleteExpenseOpen(false);
   } catch (error) {
@@ -164,7 +216,7 @@ const DeleteExpense = async () => {
           </div>
 
           <div className={styles.headerActions}>
-            <span>All Changes Sychronized</span>
+              <OfflineBanner />
             <Button
               variant="contained"
               startIcon={<AddOutlinedIcon />}
@@ -177,12 +229,10 @@ const DeleteExpense = async () => {
           </div>
         </header>
 
-        {/* <OfflineBanner /> */}
-
         <section className={styles.summary} aria-label="Summary">
+          {/* <StatusCard />
           <StatusCard />
-          <StatusCard />
-          <StatusCard />
+          <StatusCard /> */}
           {/* <span>SummaryCard</span>
             <span>SummaryCard</span>     */}
           {/* <SummaryCard label="Spent this month" value={...} /> x3 */}
