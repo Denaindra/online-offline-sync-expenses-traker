@@ -12,6 +12,7 @@ import { ExpenseFormModal } from "../features/expenses/componets/expenseFormModa
 import { DeleteExpenses } from "../features/expenses/componets/deleteExpensesModal/DeleteExpenses";
 import FooterContainer from "../features/expenses/componets/expensesFooterContainer/FooterContainer";
 import { filterExpensesByCategory, sortExpenses } from "../features/expenses/utils/sortExpenses";
+import { OfflineBanner } from "../features/expenses/componets/onlineAndOfflineSync/offlineBanner";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -164,7 +165,7 @@ const DeleteExpense = async () => {
           </div>
 
           <div className={styles.headerActions}>
-            <span>All Changes Sychronized</span>
+              <OfflineBanner />
             <Button
               variant="contained"
               startIcon={<AddOutlinedIcon />}
