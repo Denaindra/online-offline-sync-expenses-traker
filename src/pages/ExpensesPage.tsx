@@ -13,6 +13,8 @@ import { DeleteExpenses } from "../features/expenses/componets/deleteExpensesMod
 import FooterContainer from "../features/expenses/componets/expensesFooterContainer/FooterContainer";
 import { filterExpensesByCategory, sortExpenses } from "../features/expenses/utils/sortExpenses";
 import { OfflineBanner } from "../features/expenses/componets/onlineAndOfflineSync/offlineBanner";
+import { addToQueue } from "../features/sync/networkSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function ExpensesPage() {
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -27,6 +29,10 @@ function ExpensesPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [sort, setSort] = useState<SortOption>("date-desc");
   const [category, setCategory] = useState<Category | 'All'>('All');
+  const isOnline = useSelector(
+    (state: { network: { isOnline: boolean } }) => state.network.isOnline,
+  );
+  const dispatch = useDispatch();
   
   const filteredExpenses = useMemo(
     () => filterExpensesByCategory(expenses, category),
@@ -96,12 +102,25 @@ console.log("Total:", total, "Has More:", hasMore, "Page:", page);
   }, [loadExpenses]);
 
 const AddExpenses = async (expense: AddExpenseFormValues) => {
-  console.log('Adding expense:', expense);
-  const created = await expensesApi.create({
-    ...expense,
-    amount: Number(expense.amount),
-  });
-  setExpenses((prev) => [...prev, created]);
+  if (!isOnline) {
+    dispatch(addToQueue({
+      type: "create",
+      expense: {
+        ...expense,
+        id: crypto.randomUUID(),
+        amount: Number(expense.amount),
+      },
+    }));
+    return;
+  }
+  else
+    {
+      const created = await expensesApi.create({
+        ...expense,
+        amount: Number(expense.amount),
+      });
+      setExpenses((prev) => [...prev, created]);
+    }
 };
 
 const EditExpenses = async (expense: AddExpenseFormValues) => {
