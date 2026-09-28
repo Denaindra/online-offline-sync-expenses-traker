@@ -232,9 +232,9 @@ const DeleteExpense = async () => {
         {/* <OfflineBanner /> */}
 
         <section className={styles.summary} aria-label="Summary">
+          {/* <StatusCard />
           <StatusCard />
-          <StatusCard />
-          <StatusCard />
+          <StatusCard /> */}
           {/* <span>SummaryCard</span>
             <span>SummaryCard</span>     */}
           {/* <SummaryCard label="Spent this month" value={...} /> x3 */}
