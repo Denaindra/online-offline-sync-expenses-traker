@@ -21,7 +21,6 @@ const networkSlice = createSlice({
     },
     addToQueue: (state, action: PayloadAction<QueueItem>) => {
       state.queue.push(action.payload);
-      console.log('Queue after adding:', state.queue.length);
     },
      removeFromQueue: (state, action: PayloadAction<QueueItem>) => {
       state.queue = state.queue.filter((item) => item.expense.id !== action.payload.expense.id);
@@ -29,6 +28,6 @@ const networkSlice = createSlice({
   }
 });
 
-export const { setOnline, setOffline, addToQueue } = networkSlice.actions;
+export const { setOnline, setOffline, addToQueue, removeFromQueue } = networkSlice.actions;
 
 export default networkSlice.reducer;

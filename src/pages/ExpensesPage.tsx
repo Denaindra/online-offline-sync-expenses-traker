@@ -83,7 +83,6 @@ function ExpensesPage() {
   }
 }, [page, hasMore, loadingMore]);
 
-console.log("Total:", total, "Has More:", hasMore, "Page:", page);
 // useEffect(() => {
 //   const fetchExpenses = async () => {
 //     console.log('Fetching expenses...');
@@ -171,7 +170,6 @@ const SelectExpenseForEdit = (expense: Expense) =>{
 }
 
 const SelectExpenseForDelete = (expense: Expense) =>{
-  console.log('Selecting expense for delete:', expense);
   setSelectedExpense({
     id: expense.id,
     title: expense.title,
@@ -185,9 +183,22 @@ setIsDeleteExpenseOpen(true);
 
 
 const DeleteExpense = async () => {
+  console.log("Deleting expense:", selectedExpense);
   if (!selectedExpense) return;
   try {
-    await expensesApi.delete(selectedExpense.id);
+    if (!isOnline) {
+      dispatch(
+        addToQueue({
+          type: "delete",
+          expense: {
+            ...selectedExpense,
+            amount: Number(selectedExpense.amount),
+          },
+        }),
+      );
+    } else {
+      await expensesApi.delete(selectedExpense.id);
+    }
     setExpenses((prev) => prev.filter((e) => e.id !== selectedExpense.id));
     setIsDeleteExpenseOpen(false);
   } catch (error) {
