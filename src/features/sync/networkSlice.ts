@@ -23,6 +23,9 @@ const networkSlice = createSlice({
       state.queue.push(action.payload);
       console.log('Queue after adding:', state.queue.length);
     },
+     removeFromQueue: (state, action: PayloadAction<QueueItem>) => {
+      state.queue = state.queue.filter((item) => item.expense.id !== action.payload.expense.id);
+    },
   }
 });
 

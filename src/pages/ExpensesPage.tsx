@@ -111,6 +111,13 @@ const AddExpenses = async (expense: AddExpenseFormValues) => {
         amount: Number(expense.amount),
       },
     }));
+
+     setExpenses((prev) => [...prev, {
+       ...expense,
+       id: crypto.randomUUID(),
+       amount: Number(expense.amount),
+     }]);
+     
     return;
   }
   else
