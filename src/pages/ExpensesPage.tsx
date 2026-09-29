@@ -212,7 +212,7 @@ const DeleteExpense = async () => {
         <header className={styles.header}>
           <div className={styles.brand}>
             <h1 className={styles.title}>Expenses</h1>
-            <p className={styles.subtitle}>September 2026</p>
+            <p className={styles.subtitle}>2026</p>
           </div>
 
           <div className={styles.headerActions}>
@@ -224,8 +224,7 @@ const DeleteExpense = async () => {
             >
               Add expense
             </Button>
-            {/* <SyncStatus /> */}
-            {/* <Button onClick={openAddModal}>Add expense</Button> */}
+          
           </div>
         </header>
 
